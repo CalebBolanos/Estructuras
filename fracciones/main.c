@@ -1,10 +1,13 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 typedef struct fraccion{
     int numerador;
     int denominador;
 } fraccion;
 
+void menuPrincipal(void);
+void subMenu(void);
 fraccion suma(fraccion x, fraccion y);
 fraccion resta(fraccion x, fraccion y);
 fraccion multiplicacion(fraccion x, fraccion y);
@@ -12,11 +15,19 @@ fraccion division(fraccion x, fraccion y);
 fraccion escanearFraccion(void);
 void escanearFracciones(void);
 
+fraccion simplificar(fraccion x);
+int mcd(int numero1, int numero2);
+
 fraccion fraccionUno;
 fraccion fraccionDos;
 fraccion resultado;
 
 int main(int argc, const char * argv[]) {
+    menuPrincipal();
+    return 0;
+}
+
+void menuPrincipal(){
     int opc = 0;
     printf("Fracciones\n");
     printf("Operaciones:\n");
@@ -24,7 +35,7 @@ int main(int argc, const char * argv[]) {
     printf("2. Resta\n");
     printf("3. Multiplicacion\n");
     printf("4. Division\n");
-    printf("5. Simplificacion\n");
+    printf("5. Salir\n");
     printf("Digite una opcion\n");
     printf("\n");
     scanf("%d", &opc);
@@ -50,10 +61,41 @@ int main(int argc, const char * argv[]) {
             resultado = division(fraccionUno, fraccionDos);
             printf("Resultado de la division: %d/%d\n", resultado.numerador, resultado.denominador);
             break;
-        default://simplificacion
+        case 5://salir
+            exit(0);
+            break;
+        default:
+            printf("Elija una opcion del menu\n");
+            menuPrincipal();
             break;
     }
-    return 0;
+    subMenu();
+}
+
+void subMenu(){
+    char eleccion = ' ';
+    printf("Presione s para simplificar la fraccion\n");
+    printf("Presione m para regresar al menu\n");
+    printf("Presione x para salir\n");
+    scanf(" %c", &eleccion);
+    switch(eleccion){
+        case 's':
+            resultado=simplificar(resultado);
+            printf("Resultado de la simplificacion: %d/%d\n", resultado.numerador, resultado.denominador);
+            menuPrincipal();
+            break;
+        case 'm':
+            menuPrincipal();
+            return;
+            break;
+        case 'x':
+            exit(0);
+            break;
+        default:
+            printf("Elija una opcion del menu\n");
+            subMenu();
+            break;
+    }
 }
 
 fraccion suma(fraccion x, fraccion y){
@@ -112,6 +154,37 @@ fraccion escanearFraccion(){
         printf("El denominador debe de ser distinto de cero\n");
         return escanearFraccion();
     }
+}
+
+fraccion simplificar(fraccion x){
+    int max=mcd(x.numerador, x.denominador);
+    int num=x.numerador/max;
+    int den=x.denominador/max;
+    fraccion resultado;
+    resultado.numerador=num;
+    resultado.denominador=den;
+    return resultado;
+}
+
+int mcd(int numero1, int numero2){
+    int resultado = 0;
+    int x, y;
+    if(numero1 > numero2){
+        x = numero1;
+        y = numero2;
+    }
+    else{
+        x = numero2;
+        y = numero1;
+    }
+    
+    do{
+        resultado = y;
+        y = x%y;
+        x = resultado;
+    }while(y!=0);
+    
+    return resultado;
 }
 
 void escanearFracciones(){
