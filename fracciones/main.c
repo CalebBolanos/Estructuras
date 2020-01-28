@@ -35,7 +35,9 @@ void menuPrincipal(){
     printf("2. Resta\n");
     printf("3. Multiplicacion\n");
     printf("4. Division\n");
-    printf("5. Salir\n");
+    printf("5. Numerador\n");
+    printf("6. Denominador\n");
+    printf("7. Salir\n");
     printf("Digite una opcion\n");
     printf("\n");
     scanf("%d", &opc);
@@ -61,7 +63,15 @@ void menuPrincipal(){
             resultado = division(fraccionUno, fraccionDos);
             printf("Resultado de la division: %d/%d\n", resultado.numerador, resultado.denominador);
             break;
-        case 5://salir
+        case 5://numerador
+        	resultado = escanearFraccion();
+        	printf("El numerador de la fraccion es: %d\n", resultado.numerador);
+        	break;
+        case 6://denominador
+        	resultado = escanearFraccion();
+        	printf("El denominador de la fraccion es: %d\n", resultado.denominador);
+        	break;
+        case 7://salir
             exit(0);
             break;
         default:
