@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include<conio.h>
+#include <math.h>
 
 typedef struct complejo{
     float real;
@@ -13,22 +15,34 @@ complejo suma(complejo x, complejo y);
 complejo resta(complejo x, complejo y);
 complejo multiplicacion(complejo x, complejo y);
 complejo division(complejo x, complejo y);
+complejo magnitud(complejo x);
+complejo angulo(complejo x);
 void escanearComplejos(void);
+void escanCom(void);
+int n=0;
 
 complejo complejoUno;
 complejo complejoDos;
 complejo resultado;
+complejo com;
 
 int main(int argc, const char * argv[]) {
-    
+	while(n=!0)
+	{
+    int p,h;
     int opc = 0;
-    printf("Numeros complejos\n");
+    system("cls");
+    printf("\n\n--------------Numeros complejos-------------\n");
     printf("Operaciones:\n");
     printf("1. Suma\n");
     printf("2. Resta\n");
     printf("3. Multiplicacion\n");
     printf("4. Division\n");
-    printf("5. Salir\n");
+    printf("5. Magnitud\n");
+    printf("6. Angulo\n");
+    printf("7.Valor real\n");
+    printf("8.Valor imaginario\n");
+	printf("9. Salir\n");
     printf("Digite una opcion\n");
     printf("\n");
     scanf("%d", &opc);
@@ -37,35 +51,62 @@ int main(int argc, const char * argv[]) {
         case 1://suma
             escanearComplejos();
             resultado = suma(complejoUno, complejoDos);
-            printf("Parte real: %f\n", resultado.real);
-            printf("Parte imaginaria: %f i\n", resultado.imaginario);
+            printf("El numero complejo es: %.2f + %.2f i \n", resultado.real, resultado.imaginario);
+            printf("Parte real: %.2f\n", resultado.real);
+            printf("Parte imaginaria: %.2f i\n", resultado.imaginario);
             break;
         case 2://resta
             escanearComplejos();
             resultado = resta(complejoUno, complejoDos);
-            printf("Parte real: %f\n", resultado.real);
-            printf("Parte imaginaria: %f i\n", resultado.imaginario);
+            printf("El numero complejo es: %.2f + %.2f i \n", resultado.real, resultado.imaginario);
+            printf("Parte real: %.2f\n", resultado.real);
+            printf("Parte imaginaria: %.2f i\n", resultado.imaginario);
             break;
         case 3://multiplicacion
             escanearComplejos();
             resultado = multiplicacion(complejoUno, complejoDos);
-            printf("Parte real: %f\n", resultado.real);
-            printf("Parte imaginaria: %f i\n", resultado.imaginario);
+            printf("El numero complejo es: %.2f * %.2f i \n", resultado.real, resultado.imaginario);
+            printf("Parte real: %.2f\n", resultado.real);
+            printf("Parte imaginaria: %.2f i\n", resultado.imaginario);
             break;
         case 4://division
             escanearComplejos();
             resultado = division(complejoUno, complejoDos);
-            printf("Parte real: %f\n", resultado.real);
-            printf("Parte imaginaria: %f i\n", resultado.imaginario);
+            printf("El numero complejo es: %.2f / %.2f i \n", resultado.real, resultado.imaginario);
+			printf("Parte real: %.2f\n", resultado.real);
+            printf("Parte imaginaria: %.2f i\n", resultado.imaginario);
             break;
-        case 5://numerador
+        case 5://magnitud
+        	escanCom();
+        	resultado = magnitud(com);
+        	printf("La magnitud o modulo del numero complejo es: %.2f \n", resultado.real);
+        	break;
+        	
+        case 6://angulo
+        	escanCom();
+        	resultado = angulo(com);
+        	printf("El angulo o argumento del numero complejo es: %.2f \n", resultado.real);
+        	break;
+        	
+		case 7://valor real
+            escanCom();
+            printf("\nEl valor real del numero es %.2f\t" ,com.real);
+            break;
+        case 8://valor imaginario
+            escanCom();
+            printf("\nEl valor imaginario del numero es %.2f i \t" ,com.imaginario);
+            break;
+        case 9://numerador
             exit(0);
             break;
         default:
             printf("Elija una opcion del menu\n");
             break;
     }
-    
+    printf("\n");
+    system("pause");
+}
+	getch();
     return 0;
     
 }
@@ -77,6 +118,13 @@ complejo escanearComplejo(){
     printf("Escribe el valor imaginario del numero:\n");
     scanf("%f", &numero.imaginario);
     return numero;
+}
+
+void escanCom(){
+    printf("Escribe el valor real del numero:\n");
+    scanf("%f", &com.real);
+    printf("Escribe el valor imaginario del numero:\n");
+    scanf("%f", &com.imaginario);
 }
 
 void escanearComplejos(){
@@ -125,6 +173,37 @@ complejo division(complejo x, complejo y){
     resultado.imaginario = numerador.imaginario / denominador.real;
     return resultado;
 }
+
+complejo magnitud(complejo x){
+	complejo aux, aux2, aux3, resultado;
+	aux.real = x.real * x.real;
+	aux.imaginario = x.imaginario * x.imaginario;
+	aux2.real= aux.real + aux.imaginario;
+	aux3.real= fabs(aux3.real);   
+	resultado.real = sqrt(aux2.real); 
+	return resultado; 
+}
+
+complejo angulo(complejo x){
+	if (x.real<=0){
+	complejo aux, aux2, aux3, resultado, aux4;
+	aux.real= x.imaginario / x.real;
+	aux2.real = atan(aux.real);
+	aux3.real = aux2.real + 180;
+	aux4.real = aux3.real * 180;
+	resultado.real = aux4.real / 3.1416; 
+	return resultado;
+	}
+	if (x.real>0){
+	complejo aux, aux2, aux3, resultado;
+	aux.real= x.imaginario / x.real;
+	aux2.real = atan(aux.real);
+	aux3.real = aux2.real * 180;
+	resultado.real = aux3.real / 3.1416; 
+	return resultado; 
+	}
+}
+
 
 float obtenerValorReal(complejo x){
     return x.real;
